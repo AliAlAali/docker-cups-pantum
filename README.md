@@ -39,6 +39,28 @@ services:
 ```
 
 ### Build your own image
+**Note:** make sure to add/remove the IP addresses in cupsd.conf for web portal to reflect your actual docker network IP
+```conf
+# Protect printers
+<Location /printers>
+  Order allow,deny
+  Allow 192.168.0.0/16 # Example: add your network subnet mask
+  Allow 172.17.0.0/16
+</Location>
+```
 ```bash
 docker build --network=host -t docker-cups-server ./
 ```
+
+### Configure Printer
+After starting the container, the CUPS web interface will be available at:
+
+> **URL:** `http://<YOUR_DOCKER_IP>:631`
+
+1. Open your browser and go to the address above.
+2. Use the credentials defined in your environment variables:
+   * **User:** `${CUPS_ADMIN_USER}`
+   * **Password:** `${CUPS_ADMIN_PASSWORD}`
+
+<img width="674" height="454" alt="image" src="https://github.com/user-attachments/assets/e820b107-6220-4f62-8055-d989b9437ecd" />
+
